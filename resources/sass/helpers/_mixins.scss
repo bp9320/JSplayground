@@ -1,0 +1,35 @@
+// Mixins
+
+// Element Creation
+@mixin element($element) {
+  &__#{$element} {
+    @content;
+  }
+}
+// Modifier Creation
+@mixin modifier($modifier) {
+  &--#{$modifier} {
+    @content;
+  }
+}
+
+// Title font settings
+@mixin titlefont($fontSize, $fontColor: $titleFontColor) {
+  color: $fontColor;
+  font: {
+    family: 'Bungee', cursive;
+    size: $fontSize;
+  }
+  text-align: center;
+}
+
+// Body font settings
+@mixin bodyfont($fontSize, $fontColor: $bodyFontColor) {
+  color: $fontColor;
+  font: {
+    family: 'Rhodium Libre', serif;
+    size: $fontSize;
+  }
+  text-align: justify;
+  line-height: 1.5;
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>JS Playground</title>
+    <link rel="icon" href="./resources/media/images/BP-icon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./resources/css/main.css" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Monoton|Roboto" rel="stylesheet">
+  </head>
+  <body>
+
+    <h1 class="pageTitle">JavaScript Playground</h1>
+    <p class="pageDescription">Welcome to my JavaScript playground. This is where I come to  to try out/practice new concepts relating to JavaScript. If I ever find myself wondering if or how I can do something, the answer is most likely here. This is strictly a place for me to play around, so forgive me if the aesthetics of this page are nauseating.</p>
+    <br/>
+    <hr/>
+
+    <!-- BLACKJACK -->
+    <h2>Blackjack</h2>
+    <div class="blackjack">
+
+      <!-- Rules Area -->
+      <div class="blackjack__rules">
+        <h3>Rules</h3>
+        <ul>
+          <li>Click 'Deal' to shuffle deck and deal starting cards.</li>
+          <li>Click 'Hit' to receive another card or 'Hold' if you think you have a winning hand.</li>
+          <li>Objective is to have cards total as close to 21 as possible without going over.</li>
+          <li>Points for numerical cards are equivalent to the face value of the card.</li>
+          <li>Aces can be 1 or 11 points (value is determined automatically by the game based on players score).</li>
+          <li>All other face cards are 10 points, and numerical cards are worth their face value.</li>
+          <li>Dealer will hit if their card total is less than 17. Dealer will stand with a total of 17 or above.</li>
+          <li>For my own sanity, hands will be limited to 5 cards max.</li>
+        </ul>
+      </div>
+
+      <!-- Playing Area -->
+      <div class="blackjack__table">
+
+        <!-- Dealer's Hand -->
+        <div class="blackjack__tableRow">
+          <div class="blackjack__cardSpace" id="dCard-1">
+
+          </div>
+          <div class="blackjack__cardSpace" id="dCard-2">
+
+          </div>
+          <div class="blackjack__cardSpace" id="dCard-3">
+
+          </div>
+          <div class="blackjack__cardSpace" id="dCard-4">
+
+          </div>
+          <div class="blackjack__cardSpace" id="dCard-5">
+
+          </div>
+
+        </div>
+
+        <!-- Deck and Buttons -->
+        <div class="blackjack__tableRow blackjack__tableRow--leftJustify">
+          <div class="blackjack__cardSpace blackjack__cardSpace--leftMargin">
+            <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardImg" alt="card back">
+          </div>
+          <div class="blackjack__buttons">
+            <button type="button" id="btnDeal">Deal Cards</button>
+            <button type="button" id="btnHit">Hit!</button>
+            <button type="button" id="btnStand">Stand</button>
+          </div>
+        </div>
+
+        <!-- Player's Hand -->
+        <div class="blackjack__tableRow">
+          <div class="blackjack__cardSpace" id="pCard-1">
+
+          </div>
+          <div class="blackjack__cardSpace" id="pCard-2">
+
+          </div>
+          <div class="blackjack__cardSpace" id="pCard-3">
+
+          </div>
+          <div class="blackjack__cardSpace" id="pCard-4">
+
+          </div>
+          <div class="blackjack__cardSpace" id="pCard-5">
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
