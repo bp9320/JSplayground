@@ -4,6 +4,7 @@ var activePlayer = 0; // Identifies the active player, Player = 0, Dealer = 1
 var cardIndex = 0; // Tracks place within the shuffled deck
 var playerHand = []; // Holds Player's hand
 var dealerHand = []; // Holds Dealer's hand
+var hands = [[],[]] // Holds player's [0] and dealer's [1] hands
 
 var deckObj = {
   suits: ['spades', 'clubs', 'hearts', 'diamonds'],
@@ -36,7 +37,7 @@ var deckObj = {
       this.createDeck();
       this.shuffleDeck();
     } else {
-      playerHand = [], dealerHand = [];
+      hands = [[],[]];
       cardIndex = 0;
       handScore = [0, 0];
       this.shuffleDeck();
@@ -44,45 +45,37 @@ var deckObj = {
 
     // Deal two cards to each player, alternating between player and dealer
     while (cardIndex < 4) {
-      if (cardIndex === 0 || cardIndex === 2) {
 
-        //Add card to Player's hand
-        playerHand.push(this.deck[cardIndex]);
+      // Add card to active player's hand
+      hands[activePlayer].push(this.deck[cardIndex]);
 
-        //Update player card face image
-        document.getElementById('pCardImg-' + playerHand.length).src = './resources/media/images/cards/' + playerHand[playerHand.length-1][0] + '_of_' + playerHand[playerHand.length-1][1] + '.svg';
+      //Update player card face image
+      document.getElementById('player-' + activePlayer + '-CardImg-' + hands[activePlayer].length).src = './resources/media/images/cards/' + hands[activePlayer][hands[activePlayer].length-1][0] + '_of_' + hands[activePlayer][hands[activePlayer].length-1][1] + '.svg';
 
-        //Make Cards Visible
-        document.getElementById('pCard-' + playerHand.length).classList.add('blackjack__rotateContainer--visible');
+      //Make Cards Visible
+      document.getElementById('player-' + activePlayer + '-Card-' + hands[activePlayer].length).classList.add('blackjack__rotateContainer--visible');
 
-        //Flip Card Over
-        document.getElementById('pCard-' + playerHand.length).classList.add('blackjack__rotateContainer--rotate');
+      //Flip Card Over except dealer's second card
+      if (!(activePlayer === 1 && hands[activePlayer].length === 2)) {
+      document.getElementById('player-' + activePlayer + '-Card-' + hands[activePlayer].length).classList.add('blackjack__rotateContainer--rotate');
+      };
 
-        //Move to next card in deck
-        cardIndex++;
+      //Move to next card in deck
+      cardIndex++;
+
+      //Change Players
+      if (activePlayer === 0) {
+        activePlayer = 1;
       } else {
-
-        //Add card to Dealer's hand
-        dealerHand.push(this.deck[cardIndex]);
-
-        //Update Dealer card face image
-        document.getElementById('dCardImg-' + dealerHand.length).src = './resources/media/images/cards/' + dealerHand[dealerHand.length-1][0] + '_of_' + dealerHand[dealerHand.length-1][1] + '.svg';
-
-        //Make cards Visible
-        document.getElementById('dCard-' + dealerHand.length).classList.add('blackjack__rotateContainer--visible');
-
-
-        //Flip only first dealer card
-        if(dealerHand.length === 1) {
-          document.getElementById('dCard-' + dealerHand.length).classList.add('blackjack__rotateContainer--rotate');
-        }
-
-        //Move to next card in deck
-        cardIndex++;
+        activePlayer = 0;
       }
     };
   }
 };
+
+// function updateScore() {
+//   if (activePlayer === 0 && dealerHand)
+// };
 
 document.getElementById('btnDeal').addEventListener('click', deckObj.deal.bind(deckObj));
 
