@@ -60,11 +60,20 @@
     align-items: center;
 
     @include modifier('leftJustify') {
-      justify-content: flex-start;
+      // justify-content: flex-start;
+      justify-content: space-between;
     }
   }
 
+  @include element('deckButtonContainer') {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   @include element('cardSpace') {
+    display: inline-block;
     width: $cardWidth;
     height: $cardHeight;
     margin: 0 10px;
@@ -78,6 +87,25 @@
     @include modifier('leftMargin') {
       margin-left: 1.5rem;
     }
+
+  }
+
+  @include element('rotateContainer') {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: relative;
+    transition: opacity 0.3s, transform 0.5s 0.3s;
+
+    @include modifier('visible') {
+      opacity: 1;
+    }
+
+    @include modifier('rotate') {
+      transform: rotateY(180deg);
+      transform-style: preserve-3d;
+    }
+
   }
 
   @include element('cardImg') {
@@ -85,11 +113,45 @@
     height: 100%;
   }
 
+  @include element('cardBack') {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    backface-visibility: hidden;
+  }
+
+  @include element('cardFace') {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    backface-visibility: hidden;
+    transform: rotateY(180deg);
+  }
+
   @include element('buttons') {
     width: auto;
-    height: 80%;
+    height: 40%;
+    margin-left: 1rem;
     display: flex;
     flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+  @include element('button') {
+    padding: 0.5rem 0.5rem;
+  }
+
+  @include element('scores') {
+    margin-right: 5rem;
+    height: 100%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-evenly;
   }
 

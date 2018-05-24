@@ -74,8 +74,14 @@ h2 {
     justify-content: center;
     align-items: center; }
     .blackjack__tableRow--leftJustify {
-      justify-content: flex-start; }
+      justify-content: space-between; }
+  .blackjack__deckButtonContainer {
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; }
   .blackjack__cardSpace {
+    display: inline-block;
     width: 12vh;
     height: 18vh;
     margin: 0 10px;
@@ -85,8 +91,51 @@ h2 {
     border-radius: 5px; }
     .blackjack__cardSpace--leftMargin {
       margin-left: 1.5rem; }
+  .blackjack__rotateContainer {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: relative;
+    transition: opacity 0.3s, transform 0.5s 0.3s; }
+    .blackjack__rotateContainer--visible {
+      opacity: 1; }
+    .blackjack__rotateContainer--rotate {
+      transform: rotateY(180deg);
+      transform-style: preserve-3d; }
   .blackjack__cardImg {
     width: 100%;
     height: 100%; }
+  .blackjack__cardBack {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    backface-visibility: hidden; }
+  .blackjack__cardFace {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    backface-visibility: hidden;
+    transform: rotateY(180deg); }
+  .blackjack__buttons {
+    width: auto;
+    height: 40%;
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly; }
+  .blackjack__button {
+    padding: 0.5rem 0.5rem; }
+  .blackjack__scores {
+    margin-right: 5rem;
+    height: 100%;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly; }
 
 /*# sourceMappingURL=main.css.map */

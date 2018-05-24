@@ -25,7 +25,6 @@
           <li>Click 'Deal' to shuffle deck and deal starting cards.</li>
           <li>Click 'Hit' to receive another card or 'Hold' if you think you have a winning hand.</li>
           <li>Objective is to have cards total as close to 21 as possible without going over.</li>
-          <li>Points for numerical cards are equivalent to the face value of the card.</li>
           <li>Aces can be 1 or 11 points (value is determined automatically by the game based on players score).</li>
           <li>All other face cards are 10 points, and numerical cards are worth their face value.</li>
           <li>Dealer will hit if their card total is less than 17. Dealer will stand with a total of 17 or above.</li>
@@ -38,57 +37,101 @@
 
         <!-- Dealer's Hand -->
         <div class="blackjack__tableRow">
-          <div class="blackjack__cardSpace" id="dCard-1">
-
+          <div class="blackjack__cardSpace">
+            <div class="blackjack__rotateContainer" id="dCard-1">
+              <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardBack" alt="card back">
+              <img src="./resources/media/images/cards/ace_of_spades.svg" class="blackjack__cardFace" id="dCardImg-1" alt="card face">
+            </div>
           </div>
-          <div class="blackjack__cardSpace" id="dCard-2">
-
+          <div class="blackjack__cardSpace">
+            <div class="blackjack__rotateContainer" id="dCard-2">
+              <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardBack" alt="card back">
+              <img src="./resources/media/images/cards/ace_of_spades.svg" class="blackjack__cardFace" id="dCardImg-2" alt="card face">
+            </div>
           </div>
-          <div class="blackjack__cardSpace" id="dCard-3">
-
+          <div class="blackjack__cardSpace">
+            <div class="blackjack__rotateContainer" id="dCard-3">
+              <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardBack" alt="card back">
+              <img src="./resources/media/images/cards/ace_of_spades.svg" class="blackjack__cardFace" id="dCardImg-3" alt="card face">
+            </div>
           </div>
-          <div class="blackjack__cardSpace" id="dCard-4">
-
+          <div class="blackjack__cardSpace">
+            <div class="blackjack__rotateContainer" id="dCard-4">
+              <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardBack" alt="card back">
+              <img src="./resources/media/images/cards/ace_of_spades.svg" class="blackjack__cardFace" id="dCardImg-4" alt="card face">
+            </div>
           </div>
-          <div class="blackjack__cardSpace" id="dCard-5">
-
+          <div class="blackjack__cardSpace">
+            <div class="blackjack__rotateContainer" id="dCard-5">
+              <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardBack" alt="card back">
+              <img src="./resources/media/images/cards/ace_of_spades.svg" class="blackjack__cardFace" id="dCardImg-5" alt="card face">
+            </div>
           </div>
 
         </div>
 
-        <!-- Deck and Buttons -->
+        <!-- Deck, Buttons, and Score -->
         <div class="blackjack__tableRow blackjack__tableRow--leftJustify">
-          <div class="blackjack__cardSpace blackjack__cardSpace--leftMargin">
-            <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardImg" alt="card back">
+          <div class="blackjack__deckButtonContainer">
+            <div class="blackjack__cardSpace blackjack__cardSpace--leftMargin">
+              <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardImg" alt="card back">
+            </div>
+            <div class="blackjack__buttons">
+              <button type="button" id="btnDeal">Deal Cards</button>
+              <button type="button" id="btnHit">Hit!</button>
+              <button type="button" id="btnStand">Stand</button>
+              <button type="button" id="btnReset">Reset Scores</button>
+            </div>
           </div>
-          <div class="blackjack__buttons">
-            <button type="button" id="btnDeal">Deal Cards</button>
-            <button type="button" id="btnHit">Hit!</button>
-            <button type="button" id="btnStand">Stand</button>
+          <div class="blackjack__scores">
+            <h3>Dealer Hands Won</h3>
+            <p id="dWins">0</p>
+            <h3>Dealer's hand</h3>
+            <p id="dScore">0</p>
+            <h3>Player's hand</h3>
+            <p id="pScore">0</p>
+            <h3>Player Hands Won</h3>
+            <p id="pWins">0</p>
           </div>
         </div>
 
         <!-- Player's Hand -->
         <div class="blackjack__tableRow">
-          <div class="blackjack__cardSpace" id="pCard-1">
-
+          <div class="blackjack__cardSpace">
+            <div class="blackjack__rotateContainer" id="pCard-1">
+              <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardBack" alt="card back">
+              <img src="./resources/media/images/cards/ace_of_spades.svg" class="blackjack__cardFace" id="pCardImg-1" alt="card face">
+            </div>
           </div>
-          <div class="blackjack__cardSpace" id="pCard-2">
-
+          <div class="blackjack__cardSpace">
+            <div class="blackjack__rotateContainer" id="pCard-2">
+              <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardBack" alt="card back">
+              <img src="./resources/media/images/cards/ace_of_spades.svg" class="blackjack__cardFace" id="pCardImg-2" alt="card face">
+            </div>
           </div>
-          <div class="blackjack__cardSpace" id="pCard-3">
-
+          <div class="blackjack__cardSpace">
+            <div class="blackjack__rotateContainer" id="pCard-3">
+              <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardBack" alt="card back">
+              <img src="./resources/media/images/cards/ace_of_spades.svg" class="blackjack__cardFace" id="pCardImg-3" alt="card face">
+            </div>
           </div>
-          <div class="blackjack__cardSpace" id="pCard-4">
-
+          <div class="blackjack__cardSpace">
+            <div class="blackjack__rotateContainer" id="pCard-4">
+              <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardBack" alt="card back">
+              <img src="./resources/media/images/cards/ace_of_spades.svg" class="blackjack__cardFace" id="pCardImg-4" alt="card face">
+            </div>
           </div>
-          <div class="blackjack__cardSpace" id="pCard-5">
-
+          <div class="blackjack__cardSpace">
+            <div class="blackjack__rotateContainer" id="pCard-5">
+              <img src="./resources/media/images/cards/card_back.svg" class="blackjack__cardBack" alt="card back">
+              <img src="./resources/media/images/cards/ace_of_spades.svg" class="blackjack__cardFace" id="pCardImg-5" alt="card face">
+            </div>
           </div>
 
         </div>
       </div>
 
     </div>
+    <script type="text/javascript" src="./resources/scripts/script.js"></script>
   </body>
 </html>
