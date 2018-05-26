@@ -1,9 +1,30 @@
-var handScore = [0, 0]; // Holds current hand scores
-var handsWon = [0, 0]; // Holds number of hands won
-var activePlayer = 0; // Identifies the active player, Player = 0, Dealer = 1
-var cardIndex = 0; // Tracks place within the shuffled deck
-var hands = [[/*player's hand*/],[/*dealer's hand*/]];
-var numAces = 0;
+var handScore, handsWon, activePlayer, cardIndex, hands, numAces, gameIsAfoot;
+
+handsWon = [0, 0];
+
+function handReset () {
+  handScore = [0, 0]; // Holds current hand scores
+  activePlayer = 0; // Identifies the active player, Player = 0, Dealer = 1
+  cardIndex = 0; // Tracks place within the shuffled deck
+  hands = [[/*player's hand*/],[/*dealer's hand*/]];
+  numAces = 0; //tracks number of aces counted as 11 in a hand
+  gameIsAfoot = true; // tracks game state
+  for(var i = 1; i <= 5; i++) {
+    document.getElementById('player-0-Card-' + i).classList.remove('blackjack__rotateContainer--visible');
+    document.getElementById('player-0-Card-' + i).classList.remove('blackjack__rotateContainer--rotate');
+    document.getElementById('player-1-Card-' + i).classList.remove('blackjack__rotateContainer--visible');
+    document.getElementById('player-1-Card-' + i).classList.remove('blackjack__rotateContainer--rotate');
+  }
+}
+
+function resetAll() {
+  handsWon = [0, 0];
+  handReset();
+  for (var i = 0; i < 2; i++) {
+    document.getElementById('player-' + i + '-Score').textContent = '0';
+    document.getElementById('player-' + i + '-Wins').textContent = '0';
+  }
+}
 
 var deckObj = {
   suits: ['spades', 'clubs', 'hearts', 'diamonds'],
@@ -29,40 +50,32 @@ var deckObj = {
     }
   },
   deal: function() {
+    //reset all variables except handsWon
+    handReset();
     //if deck is empty, create and shuffle deck, Else shuffle deck and reset hand variables
     if (this.deck.length === 0) {
       this.createDeck();
       this.shuffleDeck();
     } else {
-      numAces = 0;
-      hands = [[],[]];
-      cardIndex = 0;
-      handScore = [0, 0];
       this.shuffleDeck();
     }
 
     // Deal two cards to each player, alternating between player and dealer
     while (cardIndex < 4) {
+      dealSingleCard();
 
-      // Add card to active player's hand
-      hands[activePlayer].push(this.deck[cardIndex]);
-
-      //Update player card face image
-      document.getElementById('player-' + activePlayer + '-CardImg-' + hands[activePlayer].length).src = './resources/media/images/cards/' + hands[activePlayer][hands[activePlayer].length-1][0] + '_of_' + hands[activePlayer][hands[activePlayer].length-1][1] + '.svg';
-
-      //Make Cards Visible
-      document.getElementById('player-' + activePlayer + '-Card-' + hands[activePlayer].length).classList.add('blackjack__rotateContainer--visible');
-
-      //Flip Card Over except dealer's second card
-      if (!(activePlayer === 1 && hands[activePlayer].length === 2)) {
-      document.getElementById('player-' + activePlayer + '-Card-' + hands[activePlayer].length).classList.add('blackjack__rotateContainer--rotate');
-      };
-
-      //Update Score except dealer's second card
-      updateScore();
-
-      //Move to next card in deck
-      cardIndex++;
+    //////////////////////////////////////// Attempt at slowing down deal
+    // // Deal two cards to each player, alternating between player and dealer
+    // while (cardIndex < 4) {
+    //   console.log('Deal while loop executing');
+    //   if (cardIndex === 0) {
+    //     console.log('card index = 0');
+    //     console.log(this);
+    //     dealSingleCard();
+    //   } else {
+    //     console.log('card index > 0');
+    //     setTimeout(dealSingleCard(), 900);
+    //   }
 
       //Change Players
       if (activePlayer === 0) {
@@ -74,6 +87,39 @@ var deckObj = {
   }
 };
 
+function dealSingleCard() {
+
+  //check to see if game is still afoot
+  if(gameIsAfoot) {
+    if (hands[activePlayer].length < 5) {
+
+      // Add card to active player's hand
+      hands[activePlayer].push(deckObj.deck[cardIndex]);
+
+      //Update player card face image
+      document.getElementById('player-' + activePlayer + '-CardImg-' + hands[activePlayer].length).src = './resources/media/images/cards/' + hands[activePlayer][hands[activePlayer].length-1][0] + '_of_' + hands[activePlayer][hands[activePlayer].length-1][1] + '.svg';
+
+      //Make Cards Visible
+      document.getElementById('player-' + activePlayer + '-Card-' + hands[activePlayer].length).classList.add('blackjack__rotateContainer--visible');
+
+      //Flip Card Over except dealer's second card
+      if (!(activePlayer === 1 && hands[activePlayer].length === 2)) {
+      document.getElementById('player-' + activePlayer + '-Card-' + hands[activePlayer].length).classList.add('blackjack__rotateContainer--rotate');
+      }
+
+      //update score
+      updateScore();
+
+      //move to next card in deck
+      cardIndex++;
+
+    }
+
+  }
+
+};
+
+
 function updateScore() {
   switch (hands[activePlayer][hands[activePlayer].length-1][0]) { //could also use deckObj.deck[cardIndex][0]
     case 'ace':
@@ -83,9 +129,9 @@ function updateScore() {
         numAces++;
       } else {
         handScore[activePlayer] += 1;
-
       }
       break;
+
     case '2':
       handScore[activePlayer] += 2;
       break;
@@ -125,6 +171,8 @@ function updateScore() {
   //check to see if player busts
   if (handScore[activePlayer] > 21 && numAces === 0) {
     handScore[activePlayer] = 'BUST!';
+    checkForWinner();
+    gameIsAfoot = false;
   } else if (handScore[activePlayer] > 21 && numAces > 0) { //if score > 21 but player has aces that were counted as 11 subtract 10 and decrease numAces by 1
     handScore[activePlayer] -= 10;
     numAces--;
@@ -133,22 +181,73 @@ function updateScore() {
   //Update scores in DOM Except score for dealer's second card on deal
   if (!(activePlayer === 1 && hands[activePlayer].length === 2)) {
   document.getElementById('player-' + activePlayer + '-Score').textContent = handScore[activePlayer];
-  };
+  }
 
 };
 
-document.getElementById('btnDeal').addEventListener('click', deckObj.deal.bind(deckObj));
+function dealerTurn() {
 
-// deckObj.deal();
-// console.log(deckObj.deck);
-// console.log();
-// console.log(playerHand);
-// console.log();
-// console.log(dealerHand);
-//
-// deckObj.deal();
-// console.log(deckObj.deck);
-// console.log();
-// console.log(playerHand);
-// console.log();
-// console.log(dealerHand);
+  //check if game is still afoot
+  if(gameIsAfoot) {
+
+    // make dealer active player
+    activePlayer = 1;
+
+    //flip second dealer card and update dealer score
+    document.getElementById('player-1-Card-2').classList.add('blackjack__rotateContainer--rotate');
+    document.getElementById('player-1-Score').textContent = handScore[activePlayer];
+
+    // draw cards while dealer score is less than 17
+    while(handScore[activePlayer] < 17) {
+      dealSingleCard();
+    }
+
+    checkForWinner();
+    gameIsAfoot = false;
+
+  }
+
+}
+
+function checkForWinner() {
+  //Identify insta-winner or insta-loser
+  var winner = handScore.indexOf('WINNER!');
+  var loser = handScore.indexOf('BUST!');
+
+  //if nobody insta-wins or busts determine who has higher score
+  if (winner === -1 && loser === -1) {
+    if (handScore[0] > handScore[1]) {
+      handsWon[0]++;
+      handScore[0] = 'WINNER!';
+      handScore[1] = 'LOSER!';
+    } else if (handScore[0] < handScore[1]) {
+      handsWon[1]++;
+      handScore[1] = 'WINNER!';
+      handScore[0] = 'LOSER!';
+    } else {
+      handScore[0] = 'PUSH!';
+      handScore[1] = 'PUSH!';
+    }
+  } else { //Assign winner and loser
+    if (winner > -1) {
+      handsWon[winner]++;
+      handScore[1 - winner] = 'LOSER!';
+    } else {
+      handsWon[1 - loser]++;
+      handScore[1 - loser] = 'WINNER!';
+      handScore[loser] = 'LOSER!';
+    }
+  }
+
+  //display updated scores and wins
+  for (var i = 0; i < 2; i++) {
+    document.getElementById('player-' + i + '-Score').textContent = handScore[i];
+    document.getElementById('player-' + i + '-Wins').textContent = handsWon[i];
+  }
+
+}
+
+document.getElementById('btnDeal').addEventListener('click', deckObj.deal.bind(deckObj));
+document.getElementById('btnHit').addEventListener('click', dealSingleCard.bind(deckObj));
+document.getElementById('btnStand').addEventListener('click', dealerTurn.bind(deckObj));
+document.getElementById('btnReset').addEventListener('click', resetAll.bind(deckObj));
