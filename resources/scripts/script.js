@@ -7,7 +7,7 @@ function handReset () {
   activePlayer = 0; // Identifies the active player, Player = 0, Dealer = 1
   cardIndex = 0; // Tracks place within the shuffled deck
   hands = [[/*player's hand*/],[/*dealer's hand*/]];
-  numAces = 0; //tracks number of aces counted as 11 in a hand
+  numAces = [0, 0]; //tracks number of aces counted as 11 in a hand
   gameIsAfoot = true; // tracks game state
   for(var i = 1; i <= 5; i++) {
     document.getElementById('player-0-Card-' + i).classList.remove('blackjack__rotateContainer--visible');
@@ -126,7 +126,7 @@ function updateScore() {
       //if the current score + 11 is less than 21, add 11 and increment numAces by 1, else add 1 to current score and no increase to numAces
       if (handScore[activePlayer] + 11 <= 21) {
         handScore[activePlayer] += 11;
-        numAces++;
+        numAces[activePlayer]++;
       } else {
         handScore[activePlayer] += 1;
       }
@@ -169,13 +169,13 @@ function updateScore() {
   }
 
   //check to see if player busts
-  if (handScore[activePlayer] > 21 && numAces === 0) {
+  if (handScore[activePlayer] > 21 && numAces[activePlayer] === 0) {
     handScore[activePlayer] = 'BUST!';
     checkForWinner();
     gameIsAfoot = false;
-  } else if (handScore[activePlayer] > 21 && numAces > 0) { //if score > 21 but player has aces that were counted as 11 subtract 10 and decrease numAces by 1
+  } else if (handScore[activePlayer] > 21 && numAces[activePlayer] > 0) { //if score > 21 but player has aces that were counted as 11 subtract 10 and decrease numAces by 1
     handScore[activePlayer] -= 10;
-    numAces--;
+    numAces[activePlayer]--;
   } //no action needed if score is less than 21
 
   //Update scores in DOM Except score for dealer's second card on deal
