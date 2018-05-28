@@ -171,8 +171,8 @@ function updateScore() {
   //check to see if player busts
   if (handScore[activePlayer] > 21 && numAces[activePlayer] === 0) {
     handScore[activePlayer] = 'BUST!';
-    checkForWinner();
     gameIsAfoot = false;
+    dealerTurn();
   } else if (handScore[activePlayer] > 21 && numAces[activePlayer] > 0) { //if score > 21 but player has aces that were counted as 11 subtract 10 and decrease numAces by 1
     handScore[activePlayer] -= 10;
     numAces[activePlayer]--;
@@ -187,11 +187,11 @@ function updateScore() {
 
 function dealerTurn() {
 
+  // make dealer active player
+  activePlayer = 1;
+
   //check if game is still afoot
   if(gameIsAfoot) {
-
-    // make dealer active player
-    activePlayer = 1;
 
     //flip second dealer card and update dealer score
     document.getElementById('player-1-Card-2').classList.add('blackjack__rotateContainer--rotate');
@@ -201,11 +201,12 @@ function dealerTurn() {
     while(handScore[activePlayer] < 17) {
       dealSingleCard();
     }
-
-    checkForWinner();
+    console.log('check for winner: dealer turn');
     gameIsAfoot = false;
 
   }
+
+  checkForWinner();
 
 }
 
@@ -216,23 +217,29 @@ function checkForWinner() {
 
   //if nobody insta-wins or busts determine who has higher score
   if (winner === -1 && loser === -1) {
+    console.log('calculate winner through scores');
     if (handScore[0] > handScore[1]) {
+      console.log('scoring: player wins');
       handsWon[0]++;
       handScore[0] = 'WINNER!';
       handScore[1] = 'LOSER!';
     } else if (handScore[0] < handScore[1]) {
+      console.log('scoring: dealer wins');
       handsWon[1]++;
       handScore[1] = 'WINNER!';
       handScore[0] = 'LOSER!';
     } else {
+      console.log('scoring: push');
       handScore[0] = 'PUSH!';
       handScore[1] = 'PUSH!';
     }
   } else { //Assign winner and loser
     if (winner > -1) {
+      console.log('insta-winner scoring');
       handsWon[winner]++;
       handScore[1 - winner] = 'LOSER!';
     } else {
+      console.log('insta-loser scoring');
       handsWon[1 - loser]++;
       handScore[1 - loser] = 'WINNER!';
       handScore[loser] = 'LOSER!';
